@@ -11,10 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-
 import javax.validation.Valid;
-import java.util.List;
+
 
 @Slf4j
 @RestController
@@ -33,18 +31,21 @@ public class PlanetController {
 
     @PostMapping("/planet")
     public Mono<Planet> createPlanet(@Valid @RequestBody Planet planet) {
-        return planetRepository.save(planet);
+
+        return swapiService.getPlanetsOnSave(planet);
     }
 
+    /** if have time is implemente
     @GetMapping("/swapi/planet")
     public Mono<List<PlanetPayload>> getAllPlanetsFromSwapi() {
         return swapiService.getAllPlanets();
     }
+     **/
 
-    @GetMapping("/swapi/planet/search")
-    public Mono<Planet> getAllPlanetsFromSwapiFromName(@RequestParam(value = "name") String name) {
-        return swapiService.getPlanets(name);
-    }
+ /**   @GetMapping("/swapi/planet/search")
+    public Mono<PlanetPayload> getAllPlanetsFromSwapiFromName(@RequestParam(value = "name") String name) {
+        return swapiService.getPlanets(pla);
+    }**/
 
     @GetMapping("/planet/{id}")
     public Mono<ResponseEntity<Planet>> getPlanetById(@PathVariable(value = "id") Integer id) {

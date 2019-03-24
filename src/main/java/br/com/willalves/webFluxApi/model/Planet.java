@@ -22,7 +22,7 @@ public class Planet {
     private String climate;
     private String terrain;
 
-    private Integer onMovies = 0;
+    private Integer movie_appearances = 0;
 
 
 
