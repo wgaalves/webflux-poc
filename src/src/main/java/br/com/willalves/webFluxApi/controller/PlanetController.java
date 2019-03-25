@@ -13,7 +13,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import javax.validation.Valid;
 
-
+@RequestMapping("/api")
 @Slf4j
 @RestController
 public class PlanetController {
@@ -72,3 +72,4 @@ public class PlanetController {
 
 
 }
+
