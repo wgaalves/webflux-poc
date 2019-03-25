@@ -11,11 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-
 import javax.validation.Valid;
-import java.util.List;
 
+@RequestMapping("/api")
 @Slf4j
 @RestController
 public class PlanetController {
@@ -33,13 +31,16 @@ public class PlanetController {
 
     @PostMapping("/planet")
     public Mono<Planet> createPlanet(@Valid @RequestBody Planet planet) {
-        return planetRepository.save(planet);
+
+        return swapiService.getPlanetsOnSave(planet);
     }
 
+    /** if have time is implemente
     @GetMapping("/swapi/planet")
     public Mono<List<PlanetPayload>> getAllPlanetsFromSwapi() {
         return swapiService.getAllPlanets();
     }
+     **/
 
     @GetMapping("/swapi/planet/search")
     public Mono<Planet> getAllPlanetsFromSwapiFromName(@RequestParam(value = "name") String name) {
@@ -47,7 +48,7 @@ public class PlanetController {
     }
 
     @GetMapping("/planet/{id}")
-    public Mono<ResponseEntity<Planet>> getPlanetById(@PathVariable(value = "id") Integer id) {
+    public Mono<ResponseEntity<Planet>> getPlanetById(@PathVariable(value = "id") String id) {
         return planetRepository.findById(id)
                 .map(planet -> ResponseEntity.ok(planet))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
@@ -61,7 +62,7 @@ public class PlanetController {
     }
 
     @DeleteMapping("/planet/{id}")
-    public Mono<ResponseEntity<Void>> deletePlanet(@PathVariable(value = "id") Integer id) {
+    public Mono<ResponseEntity<Void>> deletePlanet(@PathVariable(value = "id") String id) {
         return planetRepository.deleteById(id)
                 .then(Mono.just(new ResponseEntity<Void>(HttpStatus.OK)))
                 .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -71,3 +72,4 @@ public class PlanetController {
 
 
 }
+

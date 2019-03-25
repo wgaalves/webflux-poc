@@ -20,10 +20,4 @@ public class PlanetPayload extends Planet{
     @JsonProperty("films")
     public List<String> films = new ArrayList<String>(0);
 
-
-    @Transient
-    public Integer getMovies(){
-        return films.size();
-
-    }
 }
