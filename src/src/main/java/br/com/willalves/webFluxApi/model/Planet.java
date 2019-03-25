@@ -8,18 +8,21 @@ import lombok.Setter;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-@Table()
+@Table
 @Getter
 @Setter
 public class Planet {
 
-    @JsonIgnore
     @PrimaryKey
     private String id = UUIDs.timeBased().toString();
 
     @JsonProperty("name")
     private String name;
+
+    @JsonProperty("climate")
     private String climate;
+
+    @JsonProperty("terrain")
     private String terrain;
 
     private Integer movie_appearances = 0;

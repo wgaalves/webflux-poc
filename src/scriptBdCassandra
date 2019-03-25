@@ -1,0 +1,15 @@
+#cqlsh localhost
+
+CREATE KEYSPACE webfluxapi WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 3 };
+
+Use webfluxapi;
+
+CREATE TABLE planet(
+   id text,
+   name text,
+   climate text,
+   terrain text,
+   movie_appearances int,
+   PRIMARY KEY(id)
+);
+

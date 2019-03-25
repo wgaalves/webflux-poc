@@ -42,13 +42,13 @@ public class PlanetController {
     }
      **/
 
- /**   @GetMapping("/swapi/planet/search")
-    public Mono<PlanetPayload> getAllPlanetsFromSwapiFromName(@RequestParam(value = "name") String name) {
-        return swapiService.getPlanets(pla);
-    }**/
+    @GetMapping("/swapi/planet/search")
+    public Mono<Planet> getAllPlanetsFromSwapiFromName(@RequestParam(value = "name") String name) {
+        return swapiService.getPlanets(name);
+    }
 
     @GetMapping("/planet/{id}")
-    public Mono<ResponseEntity<Planet>> getPlanetById(@PathVariable(value = "id") Integer id) {
+    public Mono<ResponseEntity<Planet>> getPlanetById(@PathVariable(value = "id") String id) {
         return planetRepository.findById(id)
                 .map(planet -> ResponseEntity.ok(planet))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
@@ -62,7 +62,7 @@ public class PlanetController {
     }
 
     @DeleteMapping("/planet/{id}")
-    public Mono<ResponseEntity<Void>> deletePlanet(@PathVariable(value = "id") Integer id) {
+    public Mono<ResponseEntity<Void>> deletePlanet(@PathVariable(value = "id") String id) {
         return planetRepository.deleteById(id)
                 .then(Mono.just(new ResponseEntity<Void>(HttpStatus.OK)))
                 .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));

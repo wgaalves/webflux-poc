@@ -28,11 +28,26 @@ public class SwapiService {
                 .retrieve()
                 .bodyToMono(ResultPayload.class)
                 .flatMap(result -> {
-                    if(result.results.isEmpty()) {
+                    if(!result.results.isEmpty()) {
                         planet.setMovie_appearances(result.results.get(0).getFilms().size());
                         return planetRepository.save(planet);
                     }else{
                         return planetRepository.save(planet);
+                    }
+                });
+    }
+
+    public Mono<Planet> getPlanets(String name) {
+        return this.webClient.get().uri("/planets/?search={name}", name)
+                .retrieve()
+                .bodyToMono(ResultPayload.class)
+                .flatMap(result -> {
+                    if(!result.results.isEmpty()) {
+                        Planet planet = result.results.get(0);
+                        planet.setMovie_appearances(result.results.get(0).getFilms().size());
+                        return Mono.just(planet);
+                    }else{
+                        return Mono.just(new Planet());
                     }
                 });
     }
